@@ -1,0 +1,23 @@
+{
+  "name": "elib",
+  "version": "1.0.0",
+  "description": "this is ebook project",
+  "keywords": [
+    "rest",
+    "api",
+    "express"
+  ],
+  "license": "ISC",
+  "author": "Atul <atulugale11@gmail.com>",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.7",
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
