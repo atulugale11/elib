@@ -1,6 +1,11 @@
-console.log("welcome to Ebook APIs..");
+import app from "./src/app";
+import { config } from "./src/config/config";
+const startServer = () => {
+   const port = config.port || 3000;
 
-function test() {
-  console.log("testing...");
-  console.log("hei");
-}
+   app.listen(port, () => {
+      console.log(`Listening on port:${port}`);
+   });
+};
+
+startServer();
