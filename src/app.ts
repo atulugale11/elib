@@ -3,6 +3,7 @@ import { config } from "./config/config";
 import { HttpError } from "http-errors";
 import createHttpError = require("http-errors");
 import globalErrorHandler from "./middlewares/globalErrorHandler";
+import userRouter from "./user/userRouter";
 
 const app = express();
 
@@ -16,5 +17,5 @@ app.get("/", (req, res, next) => {
 });
 
 app.use(globalErrorHandler); // passing the functoin ref only, so it gets called internally by express
-
+app.use("/api/users", userRouter); // registering user router
 export default app;
