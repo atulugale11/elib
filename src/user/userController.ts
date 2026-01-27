@@ -78,7 +78,7 @@ const loginUser = async (
          expiresIn: "7d",
          algorithm: "HS256", // HMAC using SHA-256 hash algorithm default is HS256
       });
-      res.status(201).json({ accessToken: token });
+      res.status(201).json({ accessToken: token }); // login successful
    } catch (err) {
       return next(createHttpError(500, "Error while logging in user"));
    }
