@@ -46,11 +46,41 @@ const createUser = async (
          expiresIn: "7d",
          algorithm: "HS256", // HMAC using SHA-256 hash algorithm default is HS256
       });
-      res.json({ accessToken: token });
+      res.status(201).json({ accessToken: token });
    } catch (err) {
       return next(createHttpError(500, "Error while creating token"));
    }
    //logic for creating user
 };
 
-export { createUser };
+const loginUser = async (
+   req: express.Request,
+   res: express.Response,
+   next: express.NextFunction,
+) => {
+   const { email, password } = req.body;
+   if (!email || !password) {
+      const error = createHttpError(400, "All fields are required"); // Bad Request
+      return next(error); // passing the error to the global error handler middleware
+   }
+   try {
+      const user = await userModal.findOne({ email });
+      if (!user) {
+         const error = createHttpError(401, "Invalid email or password"); // Unauthorized
+         return next(error); // passing the error to the global error handler middleware
+      }
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+         const error = createHttpError(401, "Invalid email or password"); // Unauthorized
+         return next(error); // passing the error to the global error handler middleware
+      }
+      const token = sign({ sub: user._id }, config.jswtSecret as string, {
+         expiresIn: "7d",
+         algorithm: "HS256", // HMAC using SHA-256 hash algorithm default is HS256
+      });
+      res.status(201).json({ accessToken: token });
+   } catch (err) {
+      return next(createHttpError(500, "Error while logging in user"));
+   }
+};
+export { createUser, loginUser };
