@@ -1,7 +1,7 @@
 import express = require("express");
 import createHttpError = require("http-errors");
 import bcrypt = require("bcrypt");
-import userModal from "./userModal";
+import userModel from "./userModel";
 import { sign } from "jsonwebtoken";
 import { config } from "../config/config";
 import { User } from "./userTypes";
@@ -14,7 +14,7 @@ const createUser = async (
    const { name, email, password } = req.body;
 
    try {
-      const user = await userModal.findOne({ email });
+      const user = await userModel.findOne({ email });
       if (user) {
          const error = createHttpError(409, "User already exists"); // Conflict
          return next(error); // passing the error to the global error handler middleware
@@ -32,7 +32,7 @@ const createUser = async (
 
    let newUser: User;
    try {
-      newUser = await userModal.create({
+      newUser = await userModel.create({
          name,
          email,
          password: hashedPassword,
@@ -64,7 +64,7 @@ const loginUser = async (
       return next(error); // passing the error to the global error handler middleware
    }
    try {
-      const user = await userModal.findOne({ email });
+      const user = await userModel.findOne({ email });
       if (!user) {
          const error = createHttpError(401, "Invalid email or password"); // Unauthorized
          return next(error); // passing the error to the global error handler middleware
