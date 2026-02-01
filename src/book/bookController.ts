@@ -35,7 +35,9 @@ const createBook = async (
          use_filename: true,
          unique_filename: true,
       });
-      console.log("HEEE aahe request body:", req.body);
+      //@ts-ignore
+      console.log("userID:", req.user?.userId);
+
       await bookModel.create({
          title: req.body.title,
          author: "661338ejd93usdjdj", // ObjectId string
